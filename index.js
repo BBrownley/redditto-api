@@ -38,15 +38,6 @@ app.use("/bookmarks", bookmarksRouter);
 app.use("/postvotes", postVotesRouter);
 app.use("/userhistory", userHistoryRouter);
 
-app.get("/", async (req, res) => {
-  try {
-    let posts = await postsDB.all();
-    res.json(posts);
-  } catch (exception) {
-    console.log(exception);
-  }
-});
-
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
