@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const PORT = 5000; // Make it use .env variable later
+const PORT = process.env.PORT || 5000;
 
 require("dotenv").config();
 
