@@ -1,5 +1,5 @@
 const connection = require("./index").connection;
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const register = userInfo => {
@@ -29,9 +29,7 @@ const register = userInfo => {
 
     // Username must be 20 chars or less
     if (username.trim().length > 20) {
-      return reject(
-        new Error("Username must be 20 characters or less")
-      );
+      return reject(new Error("Username must be 20 characters or less"));
     }
 
     // Check to make sure username or email isn't in use
