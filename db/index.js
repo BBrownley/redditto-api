@@ -6,7 +6,7 @@ const connection = mysql.createPool({
   host: process.env.PRODUCTION_DB_HOST || "localhost",
   password: process.env.PRODUCTION_DB_PASSWORD || "",
   user: process.env.PRODUCTION_DB_USER || "root",
-  database: process.env.heroku_61b8f24467ac49f || "reddit-clone"
+  database: process.env.PRODUCTION_DB_NAME || "reddit-clone"
 });
 
 module.exports = { connection };
