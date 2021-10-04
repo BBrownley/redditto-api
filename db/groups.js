@@ -5,7 +5,7 @@ const all = () => {
     SELECT 
       group_name,
       created_at AS created_at,
-      id,
+      id AS group_id,
       blurb
     FROM groups
 `;

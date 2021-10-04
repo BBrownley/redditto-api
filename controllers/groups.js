@@ -8,12 +8,10 @@ groupsRouter.get("/", async (req, res, next) => {
   const getGroups = () => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT * FROM groups
+        SELECT *, id AS group_id FROM groups
         ORDER BY created_at DESC
         LIMIT 20 OFFSET ?
       `;
-
-      console.log(req.query.page);
 
       connection.query(
         query,

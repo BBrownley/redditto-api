@@ -9,4 +9,12 @@ const connection = mysql.createPool({
   database: process.env.PRODUCTION_DB_NAME || "reddit-clone"
 });
 
+// const connection = mysql.createPool({
+//   connectionLimit: 1000,
+//   host: "localhost",
+//   password: "",
+//   user: "root",
+//   database: "reddit-clone"
+// });
+
 module.exports = { connection };
