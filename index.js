@@ -48,6 +48,12 @@ app.use("/bookmarks", bookmarksRouter);
 app.use("/postvotes", postVotesRouter);
 app.use("/userhistory", userHistoryRouter);
 
+// log incoming requests for debugging
+app.use(function(req, res, next) {
+  console.log(req.url);
+  next();
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
