@@ -8,8 +8,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "devStart": "nodemon index.js"
+    "start": " NODE_ENV=production node index.js",
+    "devStart": "cross-env NODE_ENV=dev nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,5 +24,8 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.6"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
 }

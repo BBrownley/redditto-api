@@ -7,6 +7,16 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 5000;
 
+// serve static files if running from production environment
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+  console.log("running production environment");
+}
+
+if (process.env.NODE_ENV === "dev") {
+  console.log("running dev environment");
+}
+
 app.use(cors());
 app.use(bodyParser());
 
