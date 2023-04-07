@@ -1,20 +1,18 @@
 require("dotenv").config();
 
-const mysql = require("mysql");
-const connection = mysql.createPool({
-  connectionLimit: 1000,
-  host: process.env.PRODUCTION_DB_HOST || "localhost",
-  password: process.env.PRODUCTION_DB_PASSWORD || "",
-  user: process.env.PRODUCTION_DB_USER || "root",
-  database: process.env.PRODUCTION_DB_NAME || "reddit-clone"
-});
+let mysqlURL;
 
-// const connection = mysql.createPool({
-//   connectionLimit: 1000,
-//   host: "localhost",
-//   password: "",
-//   user: "root",
-//   database: "reddit-clone"
-// });
+if (process.env.NODE_ENV !== "dev") {
+  mysqlURL = process.env.MYSQL_URL
+}
+
+const mysql = require("mysql");
+const connection = mysql.createPool(mysqlURL || {
+  connectionLimit: 1000,
+  host: process.env.MYSQLHOST || "localhost",
+  password: process.env.MYSQLPASSWORD || "",
+  user: process.env.MYSQLUSER || "root",
+  database: process.env.MYSQLDATABASE || "reddit-clone"
+});
 
 module.exports = { connection };

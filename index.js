@@ -20,8 +20,6 @@ if (process.env.NODE_ENV === "dev") {
 app.use(cors());
 app.use(bodyParser());
 
-const connection = require("./db/index").connection;
-
 const postsDB = require("./db/posts");
 
 const tokenExtractor = require("./utils/tokenExtractor");
