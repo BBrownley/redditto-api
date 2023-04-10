@@ -7,7 +7,7 @@ const all = () => {
       created_at AS created_at,
       id AS group_id,
       blurb
-    FROM groups
+    FROM user_groups
 `;
   return new Promise((resolve, reject) => {
     connection.query(q, (err, results) => {
@@ -58,7 +58,7 @@ const create = (data, userId) => {
     // Check if group already exists by name
     connection.query(
       `
-      SELECT * FROM groups WHERE group_name = ?
+      SELECT * FROM user_groups WHERE group_name = ?
     `,
       [data.groupName],
       (err, results) => {
@@ -85,7 +85,7 @@ const create = (data, userId) => {
           return reject(new Error("An unexpected error has occured"));
         } else {
           connection.query(
-            `SELECT * FROM groups WHERE id = ?`,
+            `SELECT * FROM user_groups WHERE id = ?`,
             [results.insertId],
             (err, results) => {
               if (err) {
