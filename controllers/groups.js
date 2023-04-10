@@ -24,7 +24,7 @@ groupsRouter.get("/", async (req, res, next) => {
       connection.query(query, [pageOffset], (err, results) => {
         if (err) {
           console.log(err);
-          reject(new Error("Unable to get groups"));
+          reject(new Error("Unable to get user_groups"));
         } else {
           resolve(results);
         }
@@ -51,7 +51,7 @@ groupsRouter.get("/count", async (req, res, next) => {
       connection.query(query, (err, results) => {
         if (err) {
           console.log(err);
-          reject(new Error("Unable to count groups"));
+          reject(new Error("Unable to count user_groups"));
         } else {
           resolve({ pages: Math.ceil(Object.values(results[0])[0] / 20) });
         }
@@ -108,7 +108,7 @@ groupsRouter.param("groupName", async (req, res, next, groupName) => {
   if (group) {
     req.group = group;
   } else {
-    return res.json(400, { message: "Cannot find group" });
+    return res.json(400, { message: "Cannot find user_group" });
   }
   next();
 });

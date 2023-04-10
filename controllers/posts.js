@@ -24,7 +24,7 @@ postsRouter.get("/", async (req, res, next) => {
       WHERE posts.id = comments.post_id) AS total_comments
     FROM posts
     JOIN users ON users.id = posts.submitter_id
-    JOIN groups ON groups.id = posts.group_id
+    JOIN user_groups ON user_groups.id = posts.group_id
     LEFT JOIN post_votes ON post_votes.post_id = posts.id
     GROUP BY posts.id
     ORDER BY posts.created_at DESC
@@ -274,7 +274,7 @@ postsRouter.get("/all", async (req, res, next) => {
               WHERE posts.id = comments.post_id) AS total_comments
           FROM posts
           JOIN users ON users.id = posts.submitter_id
-          JOIN groups ON groups.id = posts.group_id
+          JOIN user_groups ON user_groups.id = posts.group_id
           LEFT JOIN post_votes ON post_votes.post_id = posts.id
           GROUP BY posts.id
           ORDER BY created_at DESC
@@ -303,11 +303,11 @@ postsRouter.get("/all", async (req, res, next) => {
               WHERE posts.id = comments.post_id) AS total_comments
           FROM posts
           JOIN users ON users.id = posts.submitter_id
-          JOIN groups ON groups.id = posts.group_id
+          JOIN user_groups ON user_groups.id = posts.group_id
           LEFT JOIN post_votes ON post_votes.post_id = posts.id
           WHERE group_name IN 
             (SELECT group_name FROM group_subscribers 
-            JOIN groups ON group_subscribers.group_id = groups.id 
+            JOIN user_groups ON group_subscribers.group_id = user_groups.id 
             WHERE user_id = ?)
           GROUP BY posts.id
           ORDER BY posts.created_at DESC
@@ -370,12 +370,12 @@ postsRouter.get("/all/count/user", async (req, res, next) => {
       const query = `
           SELECT COUNT(*) FROM
           (
-            SELECT title, post_body, groups.group_name FROM posts
-            JOIN groups ON groups.id = posts.group_id
+            SELECT title, post_body, user_groups.group_name FROM posts
+            JOIN user_groups ON user_groups.id = posts.group_id
             WHERE group_name IN 
             (
               SELECT group_name FROM group_subscribers 
-              JOIN groups ON group_subscribers.group_id = groups.id 
+              JOIN user_groups ON group_subscribers.group_id = user_groups.id 
               WHERE user_id = ?
             )
           ) AS total
@@ -423,7 +423,7 @@ postsRouter.get("/group", async (req, res, next) => {
             WHERE posts.id = comments.post_id) AS total_comments
         FROM posts
         JOIN users ON users.id = posts.submitter_id
-        JOIN groups ON groups.id = posts.group_id
+        JOIN user_groups ON user_groups.id = posts.group_id
         LEFT JOIN post_votes ON post_votes.post_id = posts.id
         WHERE group_name = ?
         GROUP BY posts.id
@@ -458,7 +458,7 @@ postsRouter.get("/group/count", async (req, res, next) => {
     return new Promise((resolve, reject) => {
       const query = `
       SELECT COUNT(*) FROM posts
-      JOIN groups ON groups.id = posts.group_id
+      JOIN user_groups ON user_groups.id = posts.group_id
       WHERE group_name = ?
     `;
 
@@ -505,7 +505,7 @@ postsRouter.get("/:postId", async (req, res, next) => {
           (SELECT COUNT(*) FROM post_follows WHERE posts.id = post_follows.post_id) AS follows
         FROM posts
         JOIN users ON users.id = posts.submitter_id
-        JOIN groups ON groups.id = posts.group_id
+        JOIN user_groups ON user_groups.id = posts.group_id
         LEFT JOIN post_votes ON post_votes.post_id = posts.id
         WHERE posts.id = ?
       `;

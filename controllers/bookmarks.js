@@ -11,11 +11,11 @@ bookmarksRouter.get("/", async (req, res, next) => {
           posts.title AS post_title, 
           posts.id AS post_id, 
           comments.content AS content, 
-          groups.group_name AS group_name 
+          user_groups.group_name AS group_name 
         FROM bookmarks
         JOIN comments ON bookmarks.comment_id = comments.id
         JOIN posts ON comments.post_id = posts.id
-        JOIN groups ON posts.group_id = groups.id
+        JOIN user_groups ON posts.group_id = user_groups.id
         WHERE user_id = ?
       `;
 
