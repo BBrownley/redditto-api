@@ -16,7 +16,7 @@ groupsRouter.get("/", async (req, res, next) => {
       let pageOffset;
 
       if (req.query.page) {
-        pageOffset = parseInt(req.query.page) - 1 * 20;
+        pageOffset = (parseInt(req.query.page) - 1) * 20;
       } else {
         pageOffset = 0;
       }
