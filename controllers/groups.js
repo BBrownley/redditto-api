@@ -8,7 +8,7 @@ groupsRouter.get("/", async (req, res, next) => {
   const getGroups = () => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT *, id AS group_id FROM groups
+        SELECT *, id AS group_id FROM user_groups
         ORDER BY created_at DESC
         LIMIT 20 OFFSET ?
       `;
@@ -23,6 +23,7 @@ groupsRouter.get("/", async (req, res, next) => {
 
       connection.query(query, [pageOffset], (err, results) => {
         if (err) {
+          console.log(err);
           reject(new Error("Unable to get groups"));
         } else {
           resolve(results);
@@ -44,11 +45,12 @@ groupsRouter.get("/count", async (req, res, next) => {
   const countPages = () => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT COUNT(*) AS total FROM groups
+        SELECT COUNT(*) AS total FROM user_groups
       `;
 
       connection.query(query, (err, results) => {
         if (err) {
+          console.log(err);
           reject(new Error("Unable to count groups"));
         } else {
           resolve({ pages: Math.ceil(Object.values(results[0])[0] / 20) });
@@ -115,7 +117,7 @@ groupsRouter.get("/verifyName", async (req, res, next) => {
   const verifyGroupByName = () => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT * FROM groups WHERE group_name = ?
+        SELECT * FROM user_groups WHERE group_name = ?
       `;
       connection.query(query, [req.query.groupName], (err, results) => {
         if (err || results.length === 0) {

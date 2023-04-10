@@ -7,7 +7,7 @@ const all = () => {
       created_at AS created_at,
       id AS group_id,
       blurb
-    FROM groups
+    FROM user_groups
 `;
   return new Promise((resolve, reject) => {
     connection.query(q, (err, results) => {
@@ -28,7 +28,7 @@ const getGroupByName = groupName => {
         id AS group_id,
         owner_id,
         group_name,
-        groups.created_at AS group_created_at,
+        user_groups.created_at AS group_created_at,
         blurb,
 
         CASE
@@ -37,9 +37,9 @@ const getGroupByName = groupName => {
         END AS subscribers
 
         FROM group_subscribers
-        RIGHT JOIN groups ON group_subscribers.group_id = groups.id
+        RIGHT JOIN user_groups ON group_subscribers.group_id = user_groups.id
         WHERE group_name = ?
-        GROUP BY groups.id
+        GROUP BY user_groups.id
         LIMIT 1
     `,
       [groupName],
@@ -58,7 +58,7 @@ const create = (data, userId) => {
     // Check if group already exists by name
     connection.query(
       `
-      SELECT * FROM groups WHERE group_name = ?
+      SELECT * FROM user_groups WHERE group_name = ?
     `,
       [data.groupName],
       (err, results) => {
@@ -73,7 +73,7 @@ const create = (data, userId) => {
 
     connection.query(
       `
-      INSERT INTO groups SET ?
+      INSERT INTO user_groups SET ?
     `,
       {
         group_name: data.groupName,
@@ -85,7 +85,7 @@ const create = (data, userId) => {
           return reject(new Error("An unexpected error has occured"));
         } else {
           connection.query(
-            `SELECT * FROM groups WHERE id = ?`,
+            `SELECT * FROM user_groups WHERE id = ?`,
             [results.insertId],
             (err, results) => {
               if (err) {
@@ -149,8 +149,8 @@ const getSubscriptions = userId => {
     if (userId) {
       connection.query(
         `
-          SELECT group_name, group_subscribers.created_at, groups.id AS group_id FROM group_subscribers
-          LEFT JOIN groups ON groups.id = group_subscribers.group_id
+          SELECT group_name, group_subscribers.created_at, user_groups.id AS group_id FROM group_subscribers
+          LEFT JOIN user_groups ON user_groups.id = group_subscribers.group_id
           WHERE group_subscribers.user_id = ?
         `,
         [userId],
