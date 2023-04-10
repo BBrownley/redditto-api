@@ -13,17 +13,21 @@ groupsRouter.get("/", async (req, res, next) => {
         LIMIT 20 OFFSET ?
       `;
 
-      connection.query(
-        query,
-        [(parseInt(req.query.page) - 1) * 20],
-        (err, results) => {
-          if (err) {
-            reject(new Error("Unable to get groups"));
-          } else {
-            resolve(results);
-          }
+      let pageOffset;
+
+      if (req.query.page) {
+        pageOffset = parseInt(req.query.page) - 1 * 20;
+      } else {
+        pageOffset = 0;
+      }
+
+      connection.query(query, [pageOffset], (err, results) => {
+        if (err) {
+          reject(new Error("Unable to get groups"));
+        } else {
+          resolve(results);
         }
-      );
+      });
     });
   };
 
