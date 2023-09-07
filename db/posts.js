@@ -1,5 +1,6 @@
 const connection = require("./index").connection;
 
+console.log(connection);
 const all = () => {
   return new Promise((resolve, reject) => {
     connection.query(query, (err, results) => {
