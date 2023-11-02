@@ -46,7 +46,7 @@ commentsRouter.get("/users/:userId", async (req, res, next) => {
       const query = `
         SELECT comments.*, posts.title AS post_title, user_groups.group_name AS group_name FROM comments
         JOIN posts ON comments.post_id = posts.id
-        JOIN user_groups ON posts.group_id = groups.id
+        JOIN user_groups ON posts.group_id = user_groups.id
         WHERE commenter_id = ?
       `;
       connection.query(query, [uid], (err, results) => {

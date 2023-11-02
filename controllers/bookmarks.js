@@ -55,10 +55,7 @@ bookmarksRouter.get("/post/:postId", async (req, res, next) => {
   };
 
   try {
-    const userPostBookmarks = await getBookmarksByPostId(
-      req.userId,
-      req.params.postId
-    );
+    const userPostBookmarks = await getBookmarksByPostId(req.userId, req.params.postId);
     res.json(userPostBookmarks);
   } catch (exception) {
     next(exception);
