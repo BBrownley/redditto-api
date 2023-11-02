@@ -51,7 +51,7 @@ const create = (data, userId) => {
                 username,
                 post_body FROM posts
               JOIN users ON users.id = posts.submitter_id
-              JOIN groups ON groups.id = posts.group_id
+              JOIN user_groups ON user_groups.id = posts.group_id
               WHERE posts.id = ?`,
             [results.insertId],
             (err, results) => {
